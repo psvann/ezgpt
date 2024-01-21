@@ -10,3 +10,17 @@ It's acutally the CVE summarizer, but for any docs site.
 Self updating RAGs
 With various data source connectors (crawlers, OCR, uploaders etc)
 chat interface front-end, some community "sharables" based on public data... maybe a login to save your chats.
+
+
+- Competitive Intelligence
+- Analyst Firm
+- Craiglist 
+
+
+High frequency of change
+Vertical value stream
+
+Have a job that collects the data 
+
+
+
