@@ -9,24 +9,41 @@ from ragchain import ChainQA
 from scraper import Scraper
 from utils import create_database, clear_files
 
+
+
+# create chromadb instance and collection
+if st.button("Create Database"):
+    chain = ChainQA()
+
 # start streamlit app
-st.title('ChainScrape')
+st.title(':chain: ChainScrape')
 
 
 url = st.text_input("Enter a URL to scrape: ")
 
 if st.button("Scrape"): 
+    progress_text = "Scraping in Progress. Please wait."
+    progress_bar = st.progress(0, text=progress_text)
     scraper = Scraper()
     if url == "":
         st.write("Please enter a URL.")
     else:
-        st.spinner("Getting links from URL...")
+        p = 0
         links = scraper.scrape_links(url)
+        links = links[:100]
+        t = len(links)
+
+        for i in range(t):
+            text = scraper.scrape_and_get_text(links[i])
+            chain.add_document(text)
+            p = int(i/t*100)
+            progress_bar.progress(p, text=f"Processing site: {i} of {t} pages processed.")
+        
         st.status("Links scraped: %s" % len(links))
 
     
 if st.button("Enter Chat"): 
-    chain = ChainQA()
+    
     chain.set_llm()
     chain.vectorize()
 

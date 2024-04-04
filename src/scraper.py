@@ -8,6 +8,7 @@ import os
 import time
 from utils import create_database, clear_files
 
+
 class Scraper:
     def __init__(self):
       pass
@@ -31,8 +32,23 @@ class Scraper:
             href = link.get("href")
             if href:
                 # Resolve relative URLs to absolute URLs
-                absolute_url = urljoin(base_url, href)
-                scraped_links.append(absolute_url)
+                for link in links:
+                    href = link.get("href")
+                    if href:
+                        # Resolve relative URLs to absolute URLs
+                        absolute_url = urljoin(base_url, href)
+                        
+                        # Parse the absolute URL and get the path
+                        parsed_link = urlparse(absolute_url)
+                        path = parsed_link.path
+
+                        # Check the extension of the path
+                        ext = os.path.splitext(path)[1]
+                        
+                        # Only append if it's an HTML page or a plain route with no extension
+                        if ext in ('', '.html'):
+                            scraped_links.append(absolute_url)
+
         return scraped_links
 
 
